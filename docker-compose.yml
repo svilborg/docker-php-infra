@@ -1,0 +1,81 @@
+version: '3'
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
+
+services:
+
+    php-fpm:
+      build:
+        context: ./php-fpm
+      volumes:
+        - ./php-fpm/php.ini:/usr/local/etc/php/php.ini
+        - ../:/var/www:cached
+      expose:
+        - "9000"
+      extra_hosts:
+        - "dockerhost:10.0.75.1"
+      networks:
+        - backend
+
+
+    nginx:
+      build:
+        context: ./nginx
+        args:
+          - PHP_UPSTREAM_CONTAINER=php-fpm
+          - PHP_UPSTREAM_PORT=9000
+      volumes:
+        - ../:/var/www:cached
+        - ./logs:/var/log/nginx
+        - ./nginx/sites:/etc/nginx/sites-available
+      ports:
+        - "80:80"
+        - "443:443"
+      depends_on:
+        - php-fpm
+      networks:
+        - frontend
+        - backend
+
+    mysql:
+      build:
+        context: ./mysql
+      environment:
+        - MYSQL_DATABASE=test
+        - MYSQL_USER=admin
+        - MYSQL_PASSWORD=admin
+        - MYSQL_ROOT_PASSWORD=root
+      volumes:
+        - ./data/mysql:/var/lib/mysql
+      ports:
+        - "3306:3306"
+      networks:
+        - backend
+        
+    postgres:
+      build: ./postgres
+      volumes:
+        - ./data/postgres:/var/lib/postgresql/data
+      ports:
+        - "5432:5432"
+      environment:
+        - POSTGRES_DB=test
+        - POSTGRES_USER=root
+        - POSTGRES_PASSWORD=root
+      networks:
+        - backend 
+        
+    redis:
+      build: ./redis
+      volumes:
+        - ./data/redis:/data
+      ports:
+        - "6379:6379"
+      networks:
+        - backend       
+        
+        
