@@ -12,7 +12,7 @@ services:
       build:
         context: ./php/fpm
       volumes:
-        - ./php-fpm/php.ini:/usr/local/etc/php/php.ini
+        - ./php/fpm/php:/usr/local/etc/php/
         - ../:/var/www:cached
       expose:
         - "9000"
@@ -25,7 +25,7 @@ services:
       build:
         context: ./php/cli
       volumes:
-        - ./php-fpm/php.ini:/usr/local/etc/php/php.ini
+        - ./php/cli/php:/usr/local/etc/php/
         - ../:/var/www:cached
       networks:
         - backend
