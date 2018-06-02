@@ -28,6 +28,8 @@ services:
         - ./php/cli/php:/usr/local/etc/php/
         - ../:/var/www:cached
         - ./test:/var/www/test:cached
+      tty: true
+      stdin_open: true
       networks:
         - backend
 
