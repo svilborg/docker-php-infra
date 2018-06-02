@@ -15,16 +15,24 @@ RUN apt-get update \
 
 
 ## Extensions ###########################################
-RUN docker-php-ext-install pdo_mysql \
-  && docker-php-ext-install pdo_pgsql \
-  && docker-php-ext-install pgsql \
-  && docker-php-ext-install mysqli
+RUN docker-php-ext-install pdo_mysql
+
+RUN docker-php-ext-install pdo_pgsql
+
+# RUN docker-php-ext-install pgsql \
+#  && docker-php-ext-install mysqli
 
 RUN docker-php-ext-install gd
 RUN docker-php-ext-install opcache
 RUN docker-php-ext-install tokenizer
 RUN docker-php-ext-install bcmath
 RUN docker-php-ext-install calendar
+
+RUN docker-php-ext-configure gd \
+    --enable-gd-native-ttf \
+    --with-jpeg-dir=/usr/lib \
+    --with-freetype-dir=/usr/include/freetype2 && \
+    docker-php-ext-install gd
 
 ## PECL ##########################################
 RUN pecl channel-update pecl.php.net
