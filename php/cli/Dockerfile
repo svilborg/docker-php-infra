@@ -1,5 +1,5 @@
 ARG PHP_VERSION=7.2
-FROM php:${PHP_VERSION}-fpm
+FROM php:${PHP_VERSION}
 
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \

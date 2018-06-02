@@ -27,6 +27,7 @@ services:
       volumes:
         - ./php/cli/php:/usr/local/etc/php/
         - ../:/var/www:cached
+        - ./test:/var/www/test:cached
       networks:
         - backend
 
