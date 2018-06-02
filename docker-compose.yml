@@ -10,7 +10,7 @@ services:
 
     php-fpm:
       build:
-        context: ./php-fpm
+        context: ./php/fpm
       volumes:
         - ./php-fpm/php.ini:/usr/local/etc/php/php.ini
         - ../:/var/www:cached
@@ -21,6 +21,14 @@ services:
       networks:
         - backend
 
+    php-cli:
+      build:
+        context: ./php/cli
+      volumes:
+        - ./php-fpm/php.ini:/usr/local/etc/php/php.ini
+        - ../:/var/www:cached
+      networks:
+        - backend
 
     nginx:
       build:
@@ -28,6 +36,7 @@ services:
         args:
           - PHP_UPSTREAM_CONTAINER=php-fpm
           - PHP_UPSTREAM_PORT=9000
+      restart: always
       volumes:
         - ../:/var/www:cached
         - ./logs:/var/log/nginx
@@ -49,6 +58,7 @@ services:
         - MYSQL_USER=admin
         - MYSQL_PASSWORD=admin
         - MYSQL_ROOT_PASSWORD=root
+      restart: always
       volumes:
         - ./data/mysql:/var/lib/mysql
       ports:

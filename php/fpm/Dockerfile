@@ -43,6 +43,7 @@ RUN apt-get install librabbitmq-dev -y && \
     docker-php-ext-enable amqp
 
 
+## Mysql Client ##################################
 RUN apt-get -y install mysql-client
 
 USER root
@@ -56,3 +57,4 @@ RUN usermod -u 1000 www-data
 
 WORKDIR /var/www
 
+EXPOSE 9000
