@@ -1,9 +1,7 @@
 version: '3'
 
 networks:
-  frontend:
-    driver: bridge
-  backend:
+  netwrk:
     driver: bridge
 
 services:
@@ -18,7 +16,7 @@ services:
       extra_hosts:
         - "dockerhost:10.0.75.1"
       networks:
-        - backend
+        - netwrk
 
     php-cli:
       build:
@@ -29,7 +27,7 @@ services:
       tty: true
       stdin_open: true
       networks:
-        - backend
+        - netwrk
 
     nginx:
       build:
@@ -48,8 +46,7 @@ services:
       depends_on:
         - php-fpm
       networks:
-        - frontend
-        - backend
+        - netwrk
 
     mysql:
       build:
@@ -65,7 +62,7 @@ services:
       ports:
         - "3306:3306"
       networks:
-        - backend
+        - netwrk
         
     postgres:
       build: ./postgres
@@ -78,7 +75,17 @@ services:
         - POSTGRES_USER=root
         - POSTGRES_PASSWORD=root
       networks:
-        - backend 
+        - netwrk 
+        
+    mongo:
+      build: ./mongo
+      ports:
+        - "27017:27017"
+      volumes:
+        - ./data/mongo:/data/db
+      networks:
+        - netwrk
+        
         
     redis:
       build: ./redis
@@ -87,6 +94,6 @@ services:
       ports:
         - "6379:6379"
       networks:
-        - backend       
+        - netwrk       
         
         
