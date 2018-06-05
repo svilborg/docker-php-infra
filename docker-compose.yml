@@ -4,6 +4,10 @@ networks:
   netwrk:
     driver: bridge
 
+volumes:
+  esdata:
+    driver: local
+
 services:
 
     php-fpm:
@@ -84,8 +88,7 @@ services:
       volumes:
         - ./data/mongo:/data/db
       networks:
-        - netwrk
-        
+        - netwrk        
         
     redis:
       build: ./redis
@@ -95,5 +98,23 @@ services:
         - "6379:6379"
       networks:
         - netwrk       
-        
+
+    elasticsearch: 
+      build: ./elasticsearch
+      volumes:
+        - esdata:/usr/share/elasticsearch/data
+      environment:
+        - cluster.name=infra-cluster
+        - discovery.type=single-node
+        - bootstrap.memory_lock=true
+        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      ulimits:
+        memlock:
+          soft: -1
+          hard: -1
+      ports:
+        - "9200:9200"
+        - "9300:9300"
+      networks:
+        - netwrk   
         
