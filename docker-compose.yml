@@ -131,4 +131,18 @@ services:
         - "8000:8000"
       networks:
         - netwrk       
+
+#    tests:
+#      build:
+#        context: ./php/cli
+#      volumes:
+#        - ../:/var/www:cached
+#        - ./test:/var/www/test:cached
+#      tty: true
+#      stdin_open: true
+#      command: 
+#        - /var/www/test/run.sh
+#      networks:
+#        - netwrk
+
         
