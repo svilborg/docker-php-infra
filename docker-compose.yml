@@ -52,6 +52,26 @@ services:
       networks:
         - netwrk
 
+    apache2:
+      build:
+        context: ./apache2
+        args:
+          - PHP_UPSTREAM_CONTAINER=php-fpm
+          - PHP_UPSTREAM_PORT=9000
+          - PHP_UPSTREAM_TIMEOUT=60
+          - DOCUMENT_ROOT/var/www/
+      volumes:
+        - ../:/var/www:cached
+        - ./logs:/var/log/apache2
+        - ./apache2/sites:/etc/apache2/sites-available
+      ports:
+        - "80:80"
+        - "433:443"
+      depends_on:
+        - php-fpm
+      networks:
+        - netwrk
+
     mysql:
       build:
         context: ./mysql
