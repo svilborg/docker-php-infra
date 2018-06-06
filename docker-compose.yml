@@ -118,3 +118,17 @@ services:
       networks:
         - netwrk   
         
+    dynamodb:
+      build: 
+        context: ./dynamodb
+      environment: 
+          - dbPath /data2/
+          - sharedDb
+      
+      volumes:
+        - ./data/dynamodb:/data
+      ports:
+        - "8000:8000"
+      networks:
+        - netwrk       
+        
