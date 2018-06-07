@@ -145,6 +145,16 @@ services:
       networks:
         - netwrk
 
+    kibana:
+      build: ./kibana
+      depends_on:
+        - elasticsearch
+      ports:
+        - "5601:5601"
+      networks:
+        - netwrk
+
+
     dynamodb:
       build: 
         context: ./dynamodb
