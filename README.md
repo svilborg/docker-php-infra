@@ -10,6 +10,16 @@ Available services :
 - mysql
 - postgres
 - dynamodb
-- elasticsearch	
+- elasticsearch
 - mongo
 - redis
+
+##### Running tests
+
+```
+ docker-compose up
+```
+
+```
+ docker-compose run --rm php-cli php ./test/index.php
+```

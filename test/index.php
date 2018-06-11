@@ -4,7 +4,7 @@ echo "\n";
 
 testExt("gd");
 testExt("mbstring");
-testExt("mcrypt");
+//testExt("mcrypt");
 testExt("pdo_mysql");
 testExt("pdo_pgsql");
 testExt("curl");
@@ -58,6 +58,20 @@ test(function () {
 
     return true;
 }, "Mongodb Connection");
+
+
+test(function () {
+    $imagick = new Imagick();
+    $imagickFormats = $imagick->queryFormats('PNG');
+    if (!in_array('PNG', $imagickFormats)) {
+        return false;
+    }
+
+    return true;
+}, "PNG Support Image Magic");
+
+
+
 
 // Functions
 // ////////////////////////////////
