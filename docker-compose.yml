@@ -175,11 +175,21 @@ services:
         - ./data/memcached:/var/lib/memcached
       ports:
         - "11211:11211"
-      depends_on:
-        - php-fpm
       networks:
         - netwrk
-
+    
+    couchdb:
+      build: ./couchdb
+      volumes:
+        - ./data/couchdb/data:/opt/couchdb/data
+      ports:
+        - "5984:5984"
+      environment:
+        - COUCHDB_USER=admin
+        - COUCHDB_PASSWORD=pwd
+      networks:
+        - netwrk
+        
 #    tests:
 #      build:
 #        context: ./php/cli
